@@ -8,10 +8,10 @@ const Navbar = () => {
         <div className="flex gap-4">
           <button>Boton</button>
           <ul className="flex gap-4">
-            <li>Link1</li>
-            <li>Link1</li>
-            <li>Link1</li>
-            <li>Link1</li>
+            <li>Producto1</li>
+            <li>Producto2</li>
+            <li>Producto3</li>
+            <li>Producto4</li>
           </ul>
         </div>
       </div>
