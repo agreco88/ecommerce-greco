@@ -1,18 +1,32 @@
+import Button from "./Button";
+import CartWidget from "./CartWidget";
+
 const Navbar = () => {
+  const handleCelular = () => {
+    console.log("Celulares");
+  };
+
+  const handleTablet = () => {
+    console.log("Tablets");
+  };
+
+  const handleNotebook = () => {
+    console.log("Notebook");
+  };
+
   return (
-    <nav className="bg-red-500 w-full h-14">
-      <div className="h-full items-center container mx-auto flex bg-red-800 justify-between">
-        <div>
-          <h3>Coderplace</h3>
+    <nav className="w-full py-4 border-b border-gray-200 bg-gray-50">
+      <div className="h-full items-center container mx-auto flex justify-between">
+        <div className="flex items-center gap-4 italic font-extrabold text-black">
+          <h3 className="text-2xl font-extralight">eCommerce</h3>
         </div>
         <div className="flex gap-4">
-          <button>Boton</button>
-          <ul className="flex gap-4">
-            <li>Producto1</li>
-            <li>Producto2</li>
-            <li>Producto3</li>
-            <li>Producto4</li>
-          </ul>
+          <div className="flex gap-4">
+            <Button label={"Celulares"} handleClick={handleCelular} />
+            <Button label={"Tablets"} handleClick={handleTablet} />
+            <Button label={"Notebook"} handleClick={handleNotebook} />
+            <CartWidget numberOfItems={9} />
+          </div>
         </div>
       </div>
     </nav>
