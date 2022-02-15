@@ -3,8 +3,12 @@ import ItemListCointainer from "./components/ItemListContainer";
 import Navbar from "./components/Navbar";
 
 function App() {
+  const onAddHandle = (quantity) => {
+    console.log("Added " + quantity + " items.");
+  };
+
   return (
-    <div className="bg-gray-50">
+    <div>
       <Navbar />
       <ItemListCointainer
         userName="Agustin"
@@ -12,12 +16,12 @@ function App() {
         cartItemCount="9"
       />
 
-      <ItemCount
+      {/* <ItemCount
         itemName="Camisa tiger"
         stock={5}
         initialNumber={2}
-        onAdd={null}
-      />
+        onAdd={onAddHandle}
+      /> */}
     </div>
   );
 }

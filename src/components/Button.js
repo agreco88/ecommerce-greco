@@ -4,7 +4,7 @@ const Button = ({ label, backgroundColor, textColor, handleClick }) => {
       className={`
         flex items-center 
         uppercase text-black font-extralight 
-        hover:border-b hover:border-black 
+        border-b border-transparent hover:border-b hover:border-black 
         transition-all duration-200
         `}
       onClick={handleClick}

@@ -6,11 +6,11 @@ const ItemCount = ({ itemName, stock, initialNumber, onAdd }) => {
   const [inStock, setInStock] = useState(stock);
 
   useEffect(() => {
-    console.log("Running useEffect");
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      console.log("Running useEffect cleanup");
-    };
+    // console.log("Running useEffect");
+    // // Specify how to clean up after this effect:
+    // return function cleanup() {
+    //   console.log("Running useEffect cleanup");
+    // };
   }, [count]);
 
   const incrementItems = () => {
@@ -51,7 +51,7 @@ const ItemCount = ({ itemName, stock, initialNumber, onAdd }) => {
       </div>
       <button
         className="w-full bg-gray-300 font-thin text-sm h-8 rounded-sm"
-        onClick={() => console.log("Todo ADD function")}
+        onClick={() => onAdd(count)}
       >
         Add to cart
       </button>
