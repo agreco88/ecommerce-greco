@@ -6,11 +6,11 @@ import { useState } from "react";
 
 const App = () => {
   const [userName, setUsername] = useState("Agustin");
-  const [cartItemCount, setCartItemCount] = useState(9);
+  const [cartItemCount, setCartItemCount] = useState(4);
   const [greeting, setGreeting] = useState("Welcome back");
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar cartItemCount={cartItemCount} />
       <Routes>
         <Route
           path="/"
@@ -23,26 +23,8 @@ const App = () => {
           }
         />
         <Route path="/about" element={<h1>About</h1>} />
-        <Route
-          path="/category/:categoryId"
-          element={
-            <ItemListCointainer
-              userName={userName}
-              greeting={greeting}
-              cartItemCount={cartItemCount}
-            />
-          }
-        />
-        <Route
-          path="/detail/:productId"
-          element={
-            <ItemListCointainer
-              userName={userName}
-              greeting={greeting}
-              cartItemCount={cartItemCount}
-            />
-          }
-        />
+        <Route path="/category/:categoryId" element={<ItemDetailContainer />} />
+        <Route path="/detail/:productId" element={<ItemDetailContainer />} />
       </Routes>
     </BrowserRouter>
   );

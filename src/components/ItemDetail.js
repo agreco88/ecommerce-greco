@@ -1,94 +1,111 @@
-import { useState } from "react";
-// import Select from '../Select/Select'
+import { CheckIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/solid";
 
-const InputCount = ({ onConfirm, stock, initial = 0 }) => {
-  const [count, setCount] = useState(initial);
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
-  const handleChange = ({ target }) => {
-    if (target.value <= stock && target.value >= 0) {
-      setCount(target.value);
-    }
-  };
-
+export default function ItemDetail(props) {
+  console.log(props.product.name);
   return (
-    <div>
-      <input type="number" onChange={handleChange} value={count} />
-      <button onClick={() => onConfirm(count)}>Agregar al carrito</button>
+    <div className="bg-white">
+      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
+        {/* Product details */}
+        <div className="lg:max-w-lg lg:self-end">
+          <div className="mt-4">
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+              {props.product.name}
+            </h1>
+          </div>
+
+          <section aria-labelledby="information-heading" className="mt-4">
+            <h2 id="information-heading" className="sr-only">
+              Product information
+            </h2>
+
+            <div className="flex items-center">
+              <p className="text-lg text-gray-900 sm:text-xl">
+                ${props.product.price}
+              </p>
+
+              <div className="ml-4 pl-4 border-l border-gray-300">
+                <h2 className="sr-only">Reviews</h2>
+                <div className="flex items-center">
+                  <div>
+                    <div className="flex items-center">
+                      {[0, 1, 2, 3, 4].map((rating) => (
+                        <StarIcon
+                          key={rating}
+                          className={classNames(
+                            props.product.reviews.average > rating
+                              ? "text-yellow-400"
+                              : "text-gray-300",
+                            "h-5 w-5 flex-shrink-0"
+                          )}
+                          aria-hidden="true"
+                        />
+                      ))}
+                    </div>
+                    <p className="sr-only">
+                      {props.product.reviews.average} out of 5 stars
+                    </p>
+                  </div>
+                  <p className="ml-2 text-sm text-gray-500">
+                    {props.product.reviews.totalCount} reviews
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-6">
+              <p className="text-base text-gray-500">
+                {props.product.description}
+              </p>
+            </div>
+
+            <div className="mt-6 flex items-center">
+              <CheckIcon
+                className="flex-shrink-0 w-5 h-5 text-green-500"
+                aria-hidden="true"
+              />
+              <p className="ml-2 text-sm text-gray-500">
+                {props.product.stock} in stock and ready to ship
+              </p>
+            </div>
+          </section>
+        </div>
+
+        {/* Product image */}
+        <div className="mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-center">
+          <div className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
+            <img
+              src={props.product.img}
+              alt={props.product.imgAlt}
+              className="w-full h-full object-center object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Product form */}
+        <div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
+          <section aria-labelledby="options-heading">
+            <form>
+              <div className="mt-10">
+                <button
+                  type="submit"
+                  className="w-full gap-2 
+                    transition duration-500 ease-in-out bg-yellow-500 hover:bg-yellow-400
+                    border border-transparent rounded-full py-3 px-8 
+                    flex items-center justify-center 
+                    text-base font-medium text-black 
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                >
+                  Add to cart <ShoppingCartIcon className className="w-4" />
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
     </div>
   );
-};
-
-const ButtonCount = ({ onConfirm, stock, initial = 0 }) => {
-  const [count, setCount] = useState(initial);
-
-  const increment = () => {
-    if (count < stock) {
-      setCount(count + 1);
-    }
-  };
-
-  const decrement = () => {
-    if (count > initial) {
-      setCount(count - 1);
-    }
-  };
-
-  return (
-    <div>
-      <p>{count}</p>
-      <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
-      <button onClick={() => onConfirm(count)}>Agregar al carrito</button>
-    </div>
-  );
-};
-
-const ItemDetail = ({
-  name,
-  img,
-  stock,
-  category,
-  description,
-  price,
-  inputType = "button",
-}) => {
-  const [option, setOption] = useState();
-  const options = [
-    { value: 1, text: "Azul" },
-    { value: 2, text: "Rojo" },
-  ];
-
-  const optionSelected = (value) => {
-    console.log(value);
-    setOption(value);
-  };
-
-  const Count = inputType === "button" ? ButtonCount : InputCount;
-
-  const onConfirm = () => {
-    console.log("agregue al carrito");
-  };
-
-  return (
-    <article className="CardItem">
-      <header className="Header">
-        <h2 className="ItemHeader">{name}</h2>
-      </header>
-      <picture>
-        <img src={img} alt={name} className="ItemImg" />
-      </picture>
-      {/* <Select options={options} onSelect={optionSelected} defaultOption={1}/> */}
-      <section>
-        <p className="Info">Categoria: {category}</p>
-        <p className="Info">Descripción: {description}</p>
-        <p className="Info">Precio: {price}</p>
-      </section>
-      <footer className="ItemFooter">
-        <Count onConfirm={onConfirm} stock={stock} inicial={1} />
-      </footer>
-      <h3>El valor del select es {option}</h3>
-    </article>
-  );
-};
-
-export default ItemDetail;
+}

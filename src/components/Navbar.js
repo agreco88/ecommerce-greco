@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import CartWidget from "./CartWidget";
 
-const Navbar = () => {
+const Navbar = ({ cartItemCount }) => {
   const handleCelular = () => {
     console.log("Celulares");
   };
@@ -20,12 +20,14 @@ const Navbar = () => {
         <div className="flex items-center gap-4 italic font-extrabold text-black">
           <h3 className="text-2xl font-extralight">eCommerce</h3>
         </div>
-        <div className="flex gap-4">
-          <div className="flex gap-4">
+        <div className="flex">
+          <div className="flex gap-16 items-center font-light uppercase ">
             <NavLink
               to={"/category/celular"}
               className={({ isActive }) =>
-                isActive ? "ActiveOption" : "Option"
+                isActive
+                  ? "transition duration-500 ease-in-out border-b border-black"
+                  : "border-b border-transparent"
               }
             >
               Celular
@@ -33,7 +35,9 @@ const Navbar = () => {
             <NavLink
               to={"/category/tablet"}
               className={({ isActive }) =>
-                isActive ? "ActiveOption" : "Option"
+                isActive
+                  ? "transition duration-500 ease-in-out border-b border-black"
+                  : "border-b border-transparent"
               }
             >
               Tablet
@@ -41,12 +45,14 @@ const Navbar = () => {
             <NavLink
               to={"/category/notebook"}
               className={({ isActive }) =>
-                isActive ? "ActiveOption" : "Option"
+                isActive
+                  ? "transition duration-500 ease-in-out border-b border-black"
+                  : "border-b border-transparent"
               }
             >
               Notebook
             </NavLink>
-            <CartWidget numberOfItems={9} />
+            <CartWidget numberOfItems={cartItemCount} />
           </div>
         </div>
       </div>

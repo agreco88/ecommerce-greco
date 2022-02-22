@@ -2,10 +2,22 @@ import { useState, useEffect } from "react";
 import { getProduct } from "../components/Asyncmock";
 import { useParams } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
+import PropagateLoader from "react-spinners/PropagateLoader";
+import { css } from "@emotion/react";
+import { EmojiSadIcon } from "@heroicons/react/solid";
+import PropagateSpinner from "./PropagateSpinner";
+
+const override = css`
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+`;
 
 const ItemDetailContainer = () => {
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
+
   const [counter, setCounter] = useState("button");
 
   const { productId } = useParams();
@@ -36,14 +48,22 @@ const ItemDetailContainer = () => {
   };
 
   return (
-    <div className="ItemDetailContainer">
-      <button onClick={handleCount}>Cambiar count</button>
+    <div className="h-screen flex flex-col items-center justify-center">
+      {/* <button onClick={handleCount}>Cambiar count</button> */}
       {loading ? (
-        <h1>Cargando...</h1>
+        <PropagateSpinner
+          text={"FETCHING YOUR PRODUCT FROM THE SHELF"}
+          color={"#e5e7eb"}
+        />
       ) : product ? (
-        <ItemDetail {...product} inputType={counter} />
+        <ItemDetail product={product} inputType={counter} />
       ) : (
-        <h1>El producto no existe</h1>
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <p className="text-2xl font-thin uppercase">
+            Product does not exist.
+          </p>
+          <EmojiSadIcon className="h-12 text-gray-500" />
+        </div>
       )}
     </div>
   );

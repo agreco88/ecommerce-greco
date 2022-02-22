@@ -1,14 +1,17 @@
 import ItemList from "./ItemList";
 import { useEffect, useState } from "react";
 import { getProducts } from "./Asyncmock";
+import PropagateSpinner from "./PropagateSpinner";
 
 const ItemListCointainer = ({ userName, greeting, cartItemCount }) => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProducts()
       .then((item) => {
         setProducts(item);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -33,7 +36,16 @@ const ItemListCointainer = ({ userName, greeting, cartItemCount }) => {
           </button>
         </span>
       </h1>
-      {products && <ItemList products={products} />}
+      {loading ? (
+        <span className="py-16">
+          <PropagateSpinner
+            text={"LOADING OUR AMAZING PRODUCT LIST"}
+            color={"#e5e7eb"}
+          />
+        </span>
+      ) : (
+        <ItemList products={products} />
+      )}
     </div>
   );
 };
