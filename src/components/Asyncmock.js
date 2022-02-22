@@ -1,30 +1,33 @@
 const products = [
   {
     id: 1,
-    name: "iphone 12",
-    price: "usd 1000",
+    name: "iPhone 12 Pro",
+    price: 1000,
     category: "celular",
-    img: "https://www.apple.com/newsroom/images/product/iphone/standard/Apple_announce-iphone12pro_10132020.jpg.og.jpg?202108061040",
+    img: "https://images.unsplash.com/photo-1509741102003-ca64bfe5f069?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
     stock: 25,
-    description: "Descripcion de Iphone 12",
+    description:
+      "A superpowerful chip. 5G speed. An advanced dual‑camera system. A Ceramic Shield front that's tougher than any smartphone glass. And a bright, beautiful OLED display. iPhone 12 has it all — in two great sizes.",
   },
   {
     id: 2,
-    name: "samsung s21",
-    price: "usd 800",
+    name: "Samsung S21+",
+    price: 800,
     category: "celular",
-    img: "https://cdn.pocket-lint.com/r/s/1200x630/assets/images/155378-phones-review-hands-on-samsung-galaxy-s21-ultra-image1-luae09ici4.JPG",
+    img: "https://images.unsplash.com/photo-1610945264803-c22b62d2a7b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
     stock: 16,
-    description: "Descripcion de Samsung s21",
+    description:
+      "Super high-resolution camera and 8K video. Galaxy's fastest processor yet. All-day intelligent battery. A striking new design. Everyday just got epic.",
   },
   {
     id: 3,
-    name: "Ipad 8va generacion",
-    price: "usd 1200",
+    name: "iPad Air 2021",
+    price: 1200,
     category: "tablet",
-    img: "https://medias.musimundo.com/medias/00406046-143516-143516-01-143516-01.jpg-size515?context=bWFzdGVyfGltYWdlc3w1MjI1MnxpbWFnZS9qcGVnfGhjMC9oYWMvMTAyODM0OTc0NTU2NDYvMDA0MDYwNDYtMTQzNTE2LTE0MzUxNl8wMS0xNDM1MTZfMDEuanBnX3NpemU1MTV8MzA0NmMzNGFhZjUwMDY2YjY5MjU0MjlkMGJlYWMxODAxZjE5ODJhZmJlOTczZThmZjE2NTQxMjU5NjE2OTA4Yw",
+    img: "https://images.unsplash.com/photo-1551204570-a10966726988?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2414&q=80",
     stock: 10,
-    description: "Descripcion de Ipad",
+    description:
+      "With A14 Bionic, you have the power to bring your ideas to life. Shoot a 4K video, then edit it right on iPad Air.",
   },
 ];
 
@@ -32,14 +35,15 @@ export const getProducts = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(products);
-    }, 3000);
+    }, 1000);
   });
 };
 
-export const getProduct = () => {
+export const getProduct = (id) => {
   return new Promise((resolve) => {
+    const prod = products.find((p) => p.id === parseInt(id));
     setTimeout(() => {
-      resolve(products[0]);
-    }, 3000);
+      resolve(prod);
+    }, 1000);
   });
 };
