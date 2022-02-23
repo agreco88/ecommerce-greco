@@ -23,30 +23,35 @@ const ItemListCointainer = ({ userName, greeting, cartItemCount }) => {
   }, []);
 
   return (
-    <div className="flex flex-col container mx-auto transition-all duration-200">
-      <h1 className="flex flex-col gap-4 w-4/5 pt-16 px-8">
-        <span className="text-6xl font-extralight">{`${greeting} ${userName}!, `}</span>
-        <span className="text-2xl font-thin">{`You have ${cartItemCount} items in your cart. Do you want to keep shopping or do you want to checkout?`}</span>
-        <span className="flex gap-8">
-          <button className="border-b border-transparent hover:border-b hover:border-black transition-all duration-200">
-            Keep browsing
-          </button>
-          <button className="border-b border-transparent hover:border-b hover:border-black transition-all duration-200">
-            Checkout
-          </button>
-        </span>
-      </h1>
+    <>
+      <div className="mx-auto max-w-2xl lg:max-w-7xl lg:px-8 h-full">
+        <div className="text-2xl flex flex-col gap-8 py-16 font-extrabold text-gray-900">
+          <h2 className="text-6xl font-extralight">{`${greeting} ${userName}!`}</h2>
+          <p className="text-2xl font-thin md:w-3/4 tracking-wide">
+            You have {cartItemCount} items in your cart. Do you want to keep
+            shopping or do you want to checkout?
+          </p>
+          <div className="flex gap-8 text-sm">
+            <button className="uppercase border-b border-transparent hover:border-b hover:border-black transition-all duration-200">
+              Keep browsing
+            </button>
+            <button className="uppercase border-b rounded-lg border-transparent hover:border-b hover:border-black transition-all duration-200 ">
+              Checkout
+            </button>
+          </div>
+        </div>
+      </div>
       {loading ? (
-        <span className="py-16">
+        <div className="h-50vh flex flex-col items-center justify-center">
           <PropagateSpinner
             text={"LOADING OUR AMAZING PRODUCT LIST"}
             color={"#e5e7eb"}
           />
-        </span>
+        </div>
       ) : (
         <ItemList products={products} />
       )}
-    </div>
+    </>
   );
 };
 

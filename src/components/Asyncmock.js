@@ -45,6 +45,18 @@ export const getProducts = () => {
   });
 };
 
+export const getProductsByCategory = (category) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        products.filter((product) => {
+          return product.category === category;
+        })
+      );
+    }, 1000);
+  });
+};
+
 export const getProduct = (id) => {
   return new Promise((resolve) => {
     const prod = products.find((p) => p.id === parseInt(id));
