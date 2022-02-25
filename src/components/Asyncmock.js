@@ -35,6 +35,30 @@ const products = [
     description:
       "With A14 Bionic, you have the power to bring your ideas to life. Shoot a 4K video, then edit it right on iPad Air.",
   },
+  {
+    id: 4,
+    name: "Macbook Air 2019",
+    price: 950,
+    category: "notebook",
+    img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2342&q=80",
+    imgAlt: "White Macbook Air 2019",
+    stock: 3,
+    reviews: { average: 4, totalCount: 223 },
+    description:
+      "Our thinnest, lightest notebook, completely transformed by the Apple M1 chip. CPU speeds up to 3.5x faster.",
+  },
+  {
+    id: 5,
+    name: "iPhone 11",
+    price: 749,
+    category: "celular",
+    img: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2362&q=80",
+    imgAlt: "White iPhone 11",
+    stock: 0,
+    reviews: { average: 5, totalCount: 87 },
+    description:
+      "The iPhone 11 boasts the new Apple A13 Bionic chip - the same SoC that powers the flagship iPhone 11 Pro duo.",
+  },
 ];
 
 export const getProducts = () => {
@@ -50,6 +74,7 @@ export const getProductsByCategory = (category) => {
     setTimeout(() => {
       resolve(
         products.filter((product) => {
+          console.log(product);
           return product.category === category;
         })
       );

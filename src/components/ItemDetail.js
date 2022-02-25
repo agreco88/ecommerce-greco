@@ -1,14 +1,32 @@
-import { CheckIcon, ShoppingCartIcon, StarIcon } from "@heroicons/react/solid";
+import { CheckIcon, BanIcon, StarIcon } from "@heroicons/react/solid";
+import React, { useContext, useState } from "react";
+import Context from "../CartContext";
+import ItemCount from "./ItemCount";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function ItemDetail(props) {
-  console.log(props.product.name);
+  const { setCartItems } = useContext(Context);
+  let initialCount;
+  props.product.stock === 0 ? (initialCount = 0) : (initialCount = 1);
+  const [quantity, setQuantity] = useState(initialCount);
+  const [inStock, setInStock] = useState(props.product.stock - quantity);
+
   return (
     <div className="bg-white">
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
+        {/* Product image */}
+        <div className="order-1 md:order-2 mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-center">
+          <div className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
+            <img
+              src={props.product.img}
+              alt={props.product.imgAlt}
+              className="w-full h-full object-center object-cover"
+            />
+          </div>
+        </div>
         {/* Product details */}
         <div className="lg:max-w-lg lg:self-end">
           <div className="mt-4">
@@ -62,31 +80,37 @@ export default function ItemDetail(props) {
               </p>
             </div>
 
-            <div className="mt-6 flex items-center">
-              <CheckIcon
-                className="flex-shrink-0 w-5 h-5 text-green-500"
-                aria-hidden="true"
-              />
-              <p className="ml-2 text-sm text-gray-500">
-                {props.product.stock} in stock and ready to ship
-              </p>
-            </div>
+            {inStock > 0 ? (
+              <div className="mt-6 flex items-center">
+                <CheckIcon
+                  className="transition duration-500 ease-in-out flex-shrink-0 w-5 h-5 text-green-500"
+                  aria-hidden="true"
+                />
+                <p className="ml-2 text-sm text-gray-500">
+                  {inStock} in stock and ready to ship
+                </p>
+              </div>
+            ) : (
+              <div className="mt-6 flex items-center">
+                <BanIcon
+                  className="transition duration-500 ease-in-out flex-shrink-0 w-5 h-5 text-red-500"
+                  aria-hidden="true"
+                />
+                <p className="ml-2 text-sm text-gray-500">No items in stock.</p>
+              </div>
+            )}
+            <ItemCount
+              quantity={quantity}
+              setQuantity={setQuantity}
+              inStock={inStock}
+              setInStock={setInStock}
+              itemPrice={props.product.price}
+            />
           </section>
         </div>
 
-        {/* Product image */}
-        <div className="mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-center">
-          <div className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
-            <img
-              src={props.product.img}
-              alt={props.product.imgAlt}
-              className="w-full h-full object-center object-cover"
-            />
-          </div>
-        </div>
-
         {/* Product form */}
-        <div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
+        {/* <div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
           <section aria-labelledby="options-heading">
             <form>
               <div className="mt-10">
@@ -104,7 +128,7 @@ export default function ItemDetail(props) {
               </div>
             </form>
           </section>
-        </div>
+        </div> */}
       </div>
     </div>
   );

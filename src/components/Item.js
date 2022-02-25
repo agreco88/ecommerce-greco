@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 const Item = ({ product }) => {
   console.log("Item:", product);
+
   return (
     <div className="group relative">
       <div className="relative transition duration-500 ease-in-out w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 cursor-pointer lg:h-80 lg:aspect-none">
@@ -26,7 +27,9 @@ const Item = ({ product }) => {
             <span className="text-xl pl-0.5">{product.price}</span>
           </p>
           <p className="mt-1 text-sm text-orange-700">
-            Only {product?.stock} left in stock - order soon.
+            {product.stock > 0
+              ? `Only ${product.stock} left in stock - order soon.`
+              : `No items in stock.`}
           </p>
           <p className="mt-1 text-sm text-gray-500 font-light">
             Ships to Uruguay
