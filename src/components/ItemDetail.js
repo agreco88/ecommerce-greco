@@ -1,4 +1,9 @@
-import { CheckIcon, BanIcon, StarIcon } from "@heroicons/react/solid";
+import {
+  CheckIcon,
+  BanIcon,
+  StarIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/solid";
 import React, { useContext, useState } from "react";
 import Context from "../CartContext";
 import ItemCount from "./ItemCount";
@@ -8,7 +13,8 @@ function classNames(...classes) {
 }
 
 export default function ItemDetail(props) {
-  const { setCartItems } = useContext(Context);
+  const { addItem, removeItem, clearCart } = useContext(Context);
+
   let initialCount;
   props.product.stock === 0 ? (initialCount = 0) : (initialCount = 1);
   const [quantity, setQuantity] = useState(initialCount);
@@ -106,29 +112,48 @@ export default function ItemDetail(props) {
               setInStock={setInStock}
               itemPrice={props.product.price}
             />
+            {/* Product CTA */}
+            <div
+              className={`
+                w-full items-center 
+                transition duration-500 ease-in-out 
+                ${
+                  quantity === 0
+                    ? "opacity-50 bg-gray-300"
+                    : "bg-yellow-500 hover:bg-yellow-400"
+                }
+                border border-transparent rounded-full
+                text-base font-medium text-black 
+                `}
+            >
+              <button
+                onClick={() => addItem(props.product, quantity)}
+                className="rounded-full py-3 px-8 flex gap-2 w-full justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+                disabled={quantity === 0 && "disabled"}
+              >
+                {quantity === 0 ? (
+                  <span className="flex gap-1">NO ITEMS IN STOCK</span>
+                ) : (
+                  <span className="flex gap-1">
+                    Add to cart <ShoppingCartIcon className className="w-4" />
+                  </span>
+                )}
+              </button>
+            </div>
+            <button
+              onClick={() => removeItem(props.product.id)}
+              className="rounded-full py-3 px-8 flex gap-2 w-full justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+            >
+              Remove item from cart
+            </button>
+            <button
+              onClick={() => clearCart()}
+              className="rounded-full py-3 px-8 flex gap-2 w-full justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+            >
+              Clear cart
+            </button>
           </section>
         </div>
-
-        {/* Product form */}
-        {/* <div className="mt-10 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
-          <section aria-labelledby="options-heading">
-            <form>
-              <div className="mt-10">
-                <button
-                  type="submit"
-                  className="w-full gap-2 
-                    transition duration-500 ease-in-out bg-yellow-500 hover:bg-yellow-400
-                    border border-transparent rounded-full py-3 px-8 
-                    flex items-center justify-center 
-                    text-base font-medium text-black 
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                >
-                  Add to cart <ShoppingCartIcon className className="w-4" />
-                </button>
-              </div>
-            </form>
-          </section>
-        </div> */}
       </div>
     </div>
   );

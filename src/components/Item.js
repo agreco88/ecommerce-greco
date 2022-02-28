@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 const Item = ({ product }) => {
-  console.log("Item:", product);
-
   return (
     <div className="group relative">
       <div className="relative transition duration-500 ease-in-out w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 cursor-pointer lg:h-80 lg:aspect-none">

@@ -1,27 +1,13 @@
-import { useState, useEffect, useContext } from "react";
-import { ShoppingCartIcon } from "@heroicons/react/solid";
 import { PlusSmIcon, MinusSmIcon } from "@heroicons/react/outline";
-import { CartContextProvider } from "../CartContext";
 
 const ItemCount = ({
   itemPrice,
-  onAdd,
   quantity,
   setQuantity,
   inStock,
   setInStock,
 }) => {
-  // useEffect(() => {
-  //   // console.log("Running useEffect");
-  //   // // Specify how to clean up after this effect:
-  //   // return function cleanup() {
-  //   //   console.log("Running useEffect cleanup");
-  //   // };
-  // }, [quantity]);
-
   const incrementItems = () => {
-    console.log(quantity);
-    console.log(inStock);
     setQuantity(quantity + 1);
     setInStock(inStock - 1);
   };
@@ -67,35 +53,6 @@ const ItemCount = ({
           </div>
         )}
       </div>
-      <form
-        className={`
-          w-full items-center 
-          transition duration-500 ease-in-out 
-          ${
-            quantity === 0
-              ? "opacity-50 bg-gray-300"
-              : "bg-yellow-500 hover:bg-yellow-400"
-          }
-          border border-transparent rounded-full 
-          py-3 px-8 
-          text-base font-medium text-black 
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500`}
-      >
-        <button
-          onClick={() => onAdd(quantity)}
-          type="submit"
-          className="flex gap-2 w-full justify-center items-center"
-          disabled={quantity === 0 && "disabled"}
-        >
-          {quantity === 0 ? (
-            <span className="flex gap-1">NO ITEMS IN STOCK</span>
-          ) : (
-            <span className="flex gap-1">
-              Add to cart <ShoppingCartIcon className className="w-4" />
-            </span>
-          )}
-        </button>
-      </form>
     </>
   );
 };

@@ -7,40 +7,31 @@ import CategoryContainer from "./components/CategoryContainer";
 import { CartContextProvider } from "./CartContext";
 
 const App = () => {
-  const [userName, setUsername] = useState("Agustin");
-  const [cartItemCount, setCartItemCount] = useState(4);
-  const [greeting, setGreeting] = useState("Welcome back");
+  const [userName] = useState("Agustin");
+  const [greeting] = useState("Welcome back");
 
   return (
-    <CartContextProvider>
-      <BrowserRouter>
-        <Navbar cartItemCount={cartItemCount} />
+    <BrowserRouter>
+      <CartContextProvider>
+        <Navbar />
         <Routes>
           <Route
             path="/"
             element={
-              <ItemListCointainer
-                userName={userName}
-                greeting={greeting}
-                cartItemCount={cartItemCount}
-              />
+              <ItemListCointainer userName={userName} greeting={greeting} />
             }
           />
           <Route path="/about" element={<h1>About</h1>} />
           <Route
             path="/category/:categoryId"
             element={
-              <CategoryContainer
-                userName={userName}
-                greeting={greeting}
-                cartItemCount={cartItemCount}
-              />
+              <CategoryContainer userName={userName} greeting={greeting} />
             }
           />
           <Route path="/detail/:productId" element={<ItemDetailContainer />} />
         </Routes>
-      </BrowserRouter>
-    </CartContextProvider>
+      </CartContextProvider>
+    </BrowserRouter>
   );
 };
 

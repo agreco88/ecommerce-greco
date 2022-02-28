@@ -48,8 +48,7 @@ const ItemDetailContainer = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
-      {/* <button onClick={handleCount}>Cambiar count</button> */}
+    <div className="flex flex-col items-center justify-center">
       {loading ? (
         <PropagateSpinner
           text={"FETCHING YOUR PRODUCT FROM THE SHELF"}

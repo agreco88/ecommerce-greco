@@ -10,7 +10,7 @@ const override = css`
 
 const PropagateSpinner = ({ text, color }) => {
   return (
-    <div className="flex flex-col justify-center items-center gap-8 animate-pulse">
+    <div className="h-50vh w-full flex flex-col justify-center items-center gap-8 animate-pulse">
       <p className="uppercase text-2xl font-thin">{text}</p>
       <PropagateLoader css={override} size={30} color={color} />
     </div>
