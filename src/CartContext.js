@@ -21,7 +21,7 @@ export const CartContextProvider = ({ children }) => {
   const [itemCount, setItemCount] = useState(0);
 
   const addItem = (item, quantity) => {
-    if (cart.some((itemInCart) => itemInCart.id === item.id)) {
+    if (isInCart(item.id)) {
       //if item exists: Search for it and update its quantity attribute.
       let updatedCart = cart;
       for (var cartItem in updatedCart) {
@@ -51,13 +51,21 @@ export const CartContextProvider = ({ children }) => {
 
   const removeItem = (id) => {
     //TODO QUANTITY UPDATE
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
+    if (isInCart(id)) {
+      const updatedCart = cart.filter((item) => item.id !== id);
+      setCart(updatedCart);
+    } else {
+      console.log("Item is not in the cart, no need to remove.");
+    }
   };
 
   const clearCart = () => {
     setCart([]);
     setItemCount(0);
+  };
+
+  const isInCart = (id) => {
+    return cart.some((itemInCart) => itemInCart.id === id);
   };
 
   return (
