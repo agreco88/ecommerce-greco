@@ -19,20 +19,31 @@ const Context = createContext([[], () => {}]);
 export const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [itemCount, setItemCount] = useState(0);
+  //----------------------------------
+  const [shippingFees] = useState(Math.floor(Math.random() * 25));
+  const [tax] = useState(10);
+  //----------------------------------
+
+  const [cartTotal, setCartTotal] = useState(0);
 
   const addItem = (item, quantity) => {
     if (isInCart(item.id)) {
-      //if item exists: Search for it and update its quantity attribute.
       let updatedCart = cart;
-      for (var cartItem in updatedCart) {
-        if (updatedCart[cartItem].id === item.id) {
-          updatedCart[cartItem].quantity =
-            updatedCart[cartItem].quantity + quantity;
-          break; //Stop loop. Item found and updated
+      let totalCost = cartTotal;
+      let updatedItemCount = 0;
+
+      //if item exists: Search for it by id and update its quantity attribute.
+      updatedCart.map((element) => {
+        if (element.id === item.id) {
+          //Add the quantity from the existing item with the prop quantity
+          element.quantity = element.quantity + quantity;
+          updatedItemCount = element.quantity;
+          totalCost = element.price * quantity;
         }
-      }
-      let updatedCount = itemCount + quantity;
-      setItemCount(updatedCount);
+      });
+
+      setCartTotal(cartTotal + totalCost);
+      setItemCount(updatedItemCount);
       setCart(updatedCart);
     } else {
       //If item deos not exist: Add it with a quantity attribute.
@@ -42,26 +53,38 @@ export const CartContextProvider = ({ children }) => {
       };
       let updatedCart = cart;
       let updatedCount = itemCount + quantity;
-
+      let totalCost = cartTotal + quantity * updatedItem.price;
+      console.log("Total cost:", totalCost);
+      setCartTotal(totalCost);
       updatedCart.push(updatedItem);
       setItemCount(updatedCount);
       setCart(updatedCart);
     }
   };
 
-  const removeItem = (id) => {
+  const removeItem = (itemToRemove) => {
     //TODO QUANTITY UPDATE
-    if (isInCart(id)) {
-      const updatedCart = cart.filter((item) => item.id !== id);
-      setCart(updatedCart);
-    } else {
-      console.log("Item is not in the cart, no need to remove.");
-    }
+    let updatedCount = 0;
+    let updatedTotal = 0;
+
+    console.log("Item to remove: ", itemToRemove);
+
+    const updatedCart = cart.filter((item) => {
+      if (item.id === itemToRemove.id) {
+        updatedCount = itemCount - item.quantity;
+        updatedTotal = cartTotal - item.quantity * item.price;
+      }
+      return item.id != itemToRemove.id;
+    });
+    setCartTotal(updatedTotal);
+    setItemCount(updatedCount);
+    setCart(updatedCart);
   };
 
   const clearCart = () => {
     setCart([]);
     setItemCount(0);
+    setCartTotal(0);
   };
 
   const isInCart = (id) => {
@@ -70,7 +93,16 @@ export const CartContextProvider = ({ children }) => {
 
   return (
     <Context.Provider
-      value={{ cart, itemCount, addItem, removeItem, clearCart }}
+      value={{
+        cart,
+        itemCount,
+        addItem,
+        removeItem,
+        clearCart,
+        cartTotal,
+        shippingFees,
+        tax,
+      }}
     >
       {children}
     </Context.Provider>

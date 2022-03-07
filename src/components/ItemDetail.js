@@ -7,6 +7,7 @@ import {
 import React, { useContext, useState } from "react";
 import Context from "../CartContext";
 import ItemCount from "./ItemCount";
+import NotificationContext from "./notifications/NotificationServices";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -14,11 +15,17 @@ function classNames(...classes) {
 
 export default function ItemDetail(props) {
   const { addItem, removeItem, clearCart } = useContext(Context);
+  const setNotificacion = useContext(NotificationContext);
 
   let initialCount;
   props.product.stock === 0 ? (initialCount = 0) : (initialCount = 1);
   const [quantity, setQuantity] = useState(initialCount);
   const [inStock, setInStock] = useState(props.product.stock - quantity);
+
+  const handleOnAdd = (item, quantity) => {
+    setNotificacion(`Added ${quantity} ${item.name} to the cart!`, "success");
+    addItem(item, quantity);
+  };
 
   return (
     <div className="bg-white">
@@ -127,7 +134,7 @@ export default function ItemDetail(props) {
                 `}
             >
               <button
-                onClick={() => addItem(props.product, quantity)}
+                onClick={() => handleOnAdd(props.product, quantity)}
                 className="rounded-full py-3 px-8 flex gap-2 w-full justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
                 disabled={quantity === 0 && "disabled"}
               >
@@ -140,18 +147,6 @@ export default function ItemDetail(props) {
                 )}
               </button>
             </div>
-            <button
-              onClick={() => removeItem(props.product.id)}
-              className="rounded-full py-3 px-8 flex gap-2 w-full justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
-            >
-              Remove item from cart
-            </button>
-            <button
-              onClick={() => clearCart()}
-              className="rounded-full py-3 px-8 flex gap-2 w-full justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
-            >
-              Clear cart
-            </button>
           </section>
         </div>
       </div>
