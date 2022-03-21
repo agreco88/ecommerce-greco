@@ -1,10 +1,10 @@
 import ItemList from "./ItemList";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-import { getProducts, getProductsByCategory } from "./Asyncmock";
 import PropagateSpinner from "./PropagateSpinner";
-import Item from "./Item";
+
+import { getDoc, collection, doc } from "@firebase/firestore";
+import { getProducts } from "./firebase/firebase";
 
 const CategoryContainer = () => {
   const [products, setProducts] = useState([]);
@@ -14,15 +14,21 @@ const CategoryContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    getProductsByCategory(categoryId)
-      .then((itemsByCategory) => {
-        console.log(`Filtered products by ${categoryId}:`, itemsByCategory);
-        setProducts(itemsByCategory);
-        setLoading(false);
+
+    getProducts(categoryId)
+      .then((response) => {
+        setProducts(response);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(
+          "Error in useEffect>getProducts (CategoryContainer.js):",
+          error
+        );
+      })
+      .finally(() => {
+        setLoading(false);
       });
+
     return () => {
       setProducts();
     };

@@ -1,18 +1,14 @@
 import { createContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const Notification = ({
-  message = "Message",
-  severity,
-  dismissNotification,
-}) => {
+const Notification = ({ message = "", severity, dismissNotification }) => {
   if (message === "") {
     return null;
   }
   return (
     <div className="absolute top-5 right-5 z-50 border-gray-400 shadow-lg flex justify-center rounded-lg w-1/7 px-16 py-4 backdrop-blur-sm bg-gray-300/10">
       <div className="flex flex-col gap-4">
-        <div> {message}</div>
+        <div>{message}</div>
         <div className="flex w-full justify-around text-sm font-light">
           <NavLink
             to={"/cart"}

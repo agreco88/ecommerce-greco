@@ -1,17 +1,83 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+//UI IMPORTS
 import Context from "../CartContext";
 import CartItemList from "./CartItemList";
 import CartOrderSummary from "./CartOrderSummary";
+//FIRESTORE IMPORTS
+import {
+  addDoc,
+  updateDoc,
+  getDoc,
+  collection,
+  doc,
+  writeBatch,
+  Timestamp,
+} from "@firebase/firestore";
+import { firestoreDatabase } from "./firebase/firebase";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function Cart() {
-  const { cart } = useContext(Context);
+  const { cart, cartTotal } = useContext(Context);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     console.log("Cart length:", cart.length);
     setLoading(false);
   }, []);
+
+  const confirmOrder = (event) => {
+    event.preventDefault();
+
+    const objOrder = {
+      buyer: {
+        name: "Agustin",
+        phone: "123456789",
+        email: "agustin.greco.pastorino@gmail.com",
+        address: "hello world 132",
+      },
+      items: cart,
+      total: cartTotal,
+      date: Timestamp.fromDate(new Date()),
+    };
+    console.log("objOrder:", objOrder);
+
+    const batch = writeBatch(firestoreDatabase);
+    const productsOutOfStock = [];
+    objOrder.items.forEach((product) => {
+      getDoc(doc(firestoreDatabase, "products", product.id)).then(
+        (response) => {
+          if (response.data().stock >= product.quantity) {
+            batch.update(doc(firestoreDatabase, "products", response.id), {
+              stock: response.data().stock - product.quantity,
+            });
+          } else {
+            productsOutOfStock.push({ id: response.id, ...response.data() });
+          }
+        }
+      );
+    });
+
+    // if (productsOutOfStock.length === 0) {
+    //   addDoc(collection(firestoreDatabase, "orders"), objOrder).then((id) => {
+    //     batch.commit().then(() => {
+    //       //Todo SetNotification here
+    //     });
+    //   });
+    // }
+
+    // addDoc(collection(firestoreDatabase, "orders"), objOrder).then(
+    //   (response) => {
+    //     console.log(response);
+    //   }
+    // );
+
+    // updateDoc(doc(firestoreDatabase, "orders", orderId), objOrder).then(
+    //   (response) => console.log(response)
+
+    // );
+  };
 
   return (
     <div className="bg-white">
@@ -29,7 +95,12 @@ export default function Cart() {
             {loading ? (
               <p>calculating costs</p>
             ) : (
-              cart && <CartOrderSummary products={cart} />
+              cart && (
+                <CartOrderSummary
+                  confirmOrder={() => confirmOrder()}
+                  products={cart}
+                />
+              )
             )}
           </form>
         </div>
@@ -50,6 +121,13 @@ export default function Cart() {
           </div>
         </div>
       )}
+      {showModal ? (
+        <ConfirmationModal
+          title="Order successfully created!"
+          buttonText="Got it, thanks!"
+          buttononClickHandler={setShowModal}
+        />
+      ) : null}
     </div>
   );
 }

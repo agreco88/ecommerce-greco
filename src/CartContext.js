@@ -23,7 +23,6 @@ export const CartContextProvider = ({ children }) => {
   const [shippingFees] = useState(Math.floor(Math.random() * 25));
   const [tax] = useState(10);
   //----------------------------------
-
   const [cartTotal, setCartTotal] = useState(0);
 
   const addItem = (item, quantity) => {

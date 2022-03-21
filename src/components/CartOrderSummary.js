@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 import Context from "../CartContext";
 
-const CartOrderSummary = () => {
+const CartOrderSummary = ({ confirmOrder }) => {
   const { cartTotal, shippingFees, tax } = useContext(Context);
   const [totalTaxes, setTotalTaxes] = useState((tax / 100) * cartTotal);
 
-  //Calculate taxes if cartTotal changes
+  //Recalculate taxes if cartTotal changes
   useEffect(() => {
     setTotalTaxes((tax / 100) * cartTotal);
   }, [cartTotal]);
@@ -76,7 +76,7 @@ const CartOrderSummary = () => {
 
         <div className="mt-6">
           <button
-            type="submit"
+            onClick={confirmOrder}
             className="
             transition duration-500 ease-in-out 
             w-full bg-yellow-500 

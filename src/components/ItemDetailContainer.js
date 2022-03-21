@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
-import { EmojiSadIcon } from "@heroicons/react/solid";
 import PropagateSpinner from "./PropagateSpinner";
 
-import { getDoc, doc } from "@firebase/firestore";
-import { firestoreDatabase } from "./firebase/firebase";
+import { getDoc, doc, query, where } from "@firebase/firestore";
+import { firestoreDatabase, getProductById } from "./firebase/firebase";
 
 const ItemDetailContainer = () => {
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
 
   const { productId } = useParams();
-
   useEffect(() => {
     setLoading(true);
-    const docRef = doc(firestoreDatabase, "products", productId);
 
-    getDoc(docRef).then((response) => {
-      const product = { id: response.id, ...response.data() };
-      setProduct(product);
-      setLoading(false);
-    });
+    getProductById(productId)
+      .then((response) => {
+        setProduct(response);
+      })
+      .catch((error) => {
+        console.log(`Error buscando producto: ${error}`);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
     return () => {
       setProduct();

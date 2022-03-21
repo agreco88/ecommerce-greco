@@ -1,18 +1,20 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-export default function ConfirmationModal(title, text, buttonText) {
-  function closeModal() {
-    setIsOpen(false);
-  }
-
+export function ConfirmationModal(
+  title,
+  text,
+  buttonText,
+  onClickHandler,
+  orderId
+) {
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={true} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={onClickHandler}
         >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
@@ -48,12 +50,13 @@ export default function ConfirmationModal(title, text, buttonText) {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Add items?
+                  {title}
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
+                  <p className="text-sm text-gray-500">{text}</p>
+                  <p>
+                    {orderId} is your reference number in case you experience
+                    any issue.
                   </p>
                 </div>
 
@@ -61,9 +64,9 @@ export default function ConfirmationModal(title, text, buttonText) {
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
+                    onClick={onClickHandler(false)}
                   >
-                    Got it, thanks!
+                    {buttonText}
                   </button>
                 </div>
               </div>
@@ -74,3 +77,5 @@ export default function ConfirmationModal(title, text, buttonText) {
     </>
   );
 }
+
+export default ConfirmationModal;
