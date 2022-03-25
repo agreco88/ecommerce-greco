@@ -18,7 +18,7 @@ import { firestoreDatabase } from "./firebase/firebase";
 import ConfirmationModal from "./ConfirmationModal";
 
 export default function Cart() {
-  const { cart, cartTotal } = useContext(Context);
+  const { cart, cartTotal, clearCart } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
@@ -26,6 +26,14 @@ export default function Cart() {
     console.log("Cart length:", cart.length);
     setLoading(false);
   }, []);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+    clearCart();
+  };
 
   const confirmOrder = (event) => {
     event.preventDefault();
@@ -59,6 +67,7 @@ export default function Cart() {
       );
     });
 
+    openModal();
     // if (productsOutOfStock.length === 0) {
     //   addDoc(collection(firestoreDatabase, "orders"), objOrder).then((id) => {
     //     batch.commit().then(() => {
@@ -96,10 +105,7 @@ export default function Cart() {
               <p>calculating costs</p>
             ) : (
               cart && (
-                <CartOrderSummary
-                  confirmOrder={() => confirmOrder()}
-                  products={cart}
-                />
+                <CartOrderSummary confirmOrder={confirmOrder} products={cart} />
               )
             )}
           </form>
@@ -124,8 +130,8 @@ export default function Cart() {
       {showModal ? (
         <ConfirmationModal
           title="Order successfully created!"
-          buttonText="Got it, thanks!"
-          buttononClickHandler={setShowModal}
+          buttonText="Return to homepage"
+          onCloseHandler={closeModal}
         />
       ) : null}
     </div>

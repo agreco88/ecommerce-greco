@@ -1,20 +1,20 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 
-export function ConfirmationModal(
+export function ConfirmationModal({
   title,
-  text,
   buttonText,
-  onClickHandler,
-  orderId
-) {
+  onCloseHandler,
+  orderId,
+}) {
   return (
     <>
       <Transition appear show={true} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={onClickHandler}
+          onClose={onCloseHandler}
         >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child
@@ -26,7 +26,7 @@ export function ConfirmationModal(
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0" />
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-75" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -45,29 +45,29 @@ export function ConfirmationModal(
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  {title}
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">{text}</p>
-                  <p>
-                    {orderId} is your reference number in case you experience
-                    any issue.
-                  </p>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={onClickHandler(false)}
+              <div className="shadow-inner inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-2xl">
+                <div className="flex flex-col gap-8 p-4">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-2xl font-medium leading-6 text-gray-900"
                   >
-                    {buttonText}
-                  </button>
+                    {title}
+                  </Dialog.Title>
+                  <div className="">
+                    <p>
+                      Thank you for shopping with us, let us know if you
+                      encounter any issues!
+                    </p>
+                  </div>
+                  <div className="flex">
+                    <Link
+                      onClick={onCloseHandler}
+                      to={"/"}
+                      className="rounded-full py-2 bg-yellow-500 hover:bg-yellow-400 flex px-8 gap-2 justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+                    >
+                      {buttonText}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </Transition.Child>
