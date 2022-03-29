@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import ItemListCointainer from "./components/ItemListContainer";
+import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ItemDetailContainer from "./components/ItemDetailContainer";
+import React, { useState } from "react";
+import CategoryContainer from "./components/CategoryContainer";
+import { CartContextProvider } from "./CartContext";
+import { NotificationContextProvider } from "./components/notifications/NotificationServices";
+import Cart from "./components/Cart";
 
-function App() {
+const App = () => {
+  const [userName] = useState("Agustin");
+  const [greeting] = useState("Welcome back");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NotificationContextProvider>
+        <CartContextProvider>
+          <Navbar />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ItemListCointainer userName={userName} greeting={greeting} />
+              }
+            />
+            <Route path="/about" element={<h1>About</h1>} />
+            <Route
+              path="/category/:categoryId"
+              element={
+                <CategoryContainer userName={userName} greeting={greeting} />
+              }
+            />
+            <Route
+              path="/detail/:productId"
+              element={<ItemDetailContainer />}
+            />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </CartContextProvider>
+      </NotificationContextProvider>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
