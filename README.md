@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Ecommerce Agustin Greco - Coderhouse
+
+En este proyecto se utilizo el framwork de Tailwind CSS (https://tailwindcss.com/) por lo cual el CSS esta embebido en el JSX y no hay hojas de estilo por componente.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
