@@ -68,24 +68,19 @@ export default function Cart() {
     });
 
     openModal();
-    // if (productsOutOfStock.length === 0) {
-    //   addDoc(collection(firestoreDatabase, "orders"), objOrder).then((id) => {
-    //     batch.commit().then(() => {
-    //       //Todo SetNotification here
-    //     });
-    //   });
-    // }
+    if (productsOutOfStock.length === 0) {
+      addDoc(collection(firestoreDatabase, "orders"), objOrder).then((id) => {
+        batch.commit().then(() => {
+          console.log("Batch commited!");
+        });
+      });
+    }
 
-    // addDoc(collection(firestoreDatabase, "orders"), objOrder).then(
-    //   (response) => {
-    //     console.log(response);
-    //   }
-    // );
-
-    // updateDoc(doc(firestoreDatabase, "orders", orderId), objOrder).then(
-    //   (response) => console.log(response)
-
-    // );
+    addDoc(collection(firestoreDatabase, "orders"), objOrder).then(
+      (response) => {
+        console.log(response.data().orderId);
+      }
+    );
   };
 
   return (

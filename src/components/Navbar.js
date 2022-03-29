@@ -3,7 +3,7 @@ import CartWidget from "./CartWidget";
 
 const Navbar = () => {
   const navigation = [
-    { name: "Phones", path: "/category/phones" },
+    { name: "Smartphones", path: "/category/smartphones" },
     { name: "Tablets", path: "/category/tablets" },
     { name: "Laptops", path: "/category/laptops" },
   ];
